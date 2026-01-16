@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Panel de Administrador</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 20px;
+      }
+      .container {
+        border: 1px solid #ddd;
+        padding: 20px;
+        border-radius: 5px;
+      }
+      .info {
+        background: #f8f9fa;
+        padding: 15px;
+        border-radius: 5px;
+        margin: 20px 0;
+      }
+      .users-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+      }
+      .users-table th,
+      .users-table td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: left;
+      }
+      .users-table th {
+        background: #343a40;
+        color: white;
+      }
+      .logout {
+        background: #dc3545;
+        color: white;
+        padding: 10px 20px;
+        text-decoration: none;
+        border-radius: 5px;
+      }
+      .admin-badge {
+        background: #17a2b8;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 3px;
+      }
+      .user-badge {
+        background: #28a745;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 3px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>👑 Panel de Administrador</h2>
+
+      <div class="info">
+        <p><strong>Email:</strong> <%= email %></p>
+        <p>
+          <strong>Rol:</strong> <span class="admin-badge"><%= role %></span>
+        </p>
+        <p>
+          <strong>ID de Sesión:</strong>
+          <small id="sessionId">No accesible desde JavaScript (httpOnly)</small>
+        </p>
+      </div>
+
+      <h3>📊 Usuarios Registrados</h3>
+
+      <% if (users && users.length > 0) { %>
+      <table class="users-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Email</th>
+            <th>Rol</th>
+            <th>Fecha Registro</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% users.forEach(user => { %>
+          <tr>
+            <td><%= user.id %></td>
+            <td><%= user.email %></td>
+            <td>
+              <% if (user.role === 'admin') { %>
+              <span class="admin-badge"><%= user.role %></span>
+              <% } else { %>
+              <span class="user-badge"><%= user.role %></span>
+              <% } %>
+            </td>
+            <td><%= new Date(user.createdAt).toLocaleDateString() %></td>
+          </tr>
+          <% }); %>
+        </tbody>
+      </table>
+      <% } else { %>
+      <p>No hay usuarios registrados.</p>
+      <% } %>
+
+      <h3>🔧 Funciones de Administración</h3>
+      <ul>
+        <li>Ver todos los usuarios registrados</li>
+        <li>Gestionar roles de usuario</li>
+        <li>Monitorear sesiones activas</li>
+        <li>Ver logs de seguridad</li>
+      </ul>
+
+      <h3>🔒 Información de Seguridad</h3>
+      <ul>
+        <li>Cookies configuradas como HTTP-only</li>
+        <li>SameSite=Strict para protección CSRF</li>
+        <li>Sesión expira en 10 minutos</li>
+        <li>Contraseñas almacenadas con hash bcrypt</li>
+      </ul>
+
+      <br />
+      <a href="/logout" class="logout">Cerrar Sesión</a>
+    </div>
+
+    <script>
+      // Demostración: NO podemos acceder a la cookie de sesión
+      console.log("Intentando leer cookies...");
+      console.log("document.cookie:", document.cookie); // No mostrará la cookie de sesión
+      console.log("✅ Cookie httpOnly funcionando correctamente");
+
+      // Mostrar que no podemos acceder a la cookie
+      document.getElementById("sessionId").textContent =
+        "Protegida (httpOnly) - JavaScript no puede leerla";
+    </script>
+  </body>
+</html>

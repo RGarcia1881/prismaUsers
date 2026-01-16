@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Inicio de Sesión - Sistema Seguro</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 400px;
+        margin: 50px auto;
+        padding: 20px;
+      }
+      .container {
+        border: 1px solid #ddd;
+        padding: 20px;
+        border-radius: 5px;
+      }
+      input {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        box-sizing: border-box;
+      }
+      button {
+        background: #007bff;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
+      }
+      .error {
+        color: red;
+        margin: 10px 0;
+      }
+      .success {
+        color: green;
+        margin: 10px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>🔐 Inicio de Sesión</h2>
+
+      <% if (error) { %>
+      <div class="error"><%= error %></div>
+      <% } %>
+
+      <form method="POST" action="/login">
+        <input
+          type="email"
+          name="email"
+          placeholder="Correo electrónico"
+          required
+        />
+        <input
+          type="password"
+          name="password"
+          placeholder="Contraseña"
+          required
+        />
+        <button type="submit">Entrar</button>
+      </form>
+
+      <p>¿No tienes cuenta? <a href="/register">Regístrate aquí</a></p>
+
+      <hr />
+      <small
+        >Este sistema usa cookies HTTP-only para protección contra XSS</small
+      >
+    </div>
+  </body>
+</html>
